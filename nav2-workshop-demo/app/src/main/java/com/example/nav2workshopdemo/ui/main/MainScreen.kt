@@ -45,8 +45,8 @@ fun HomeScreen(
   modifier: Modifier = Modifier,
 ) {
   ScreenScaffold(
-    title = "Navigation Migration Demo",
-    subtitle = "A compact sample app for practicing the official Navigation 3 migration skill.",
+    title = "Event Schedule",
+    subtitle = "Plan your day and keep useful venue notes close at hand.",
     contentPadding = contentPadding,
     action = { NotesButton(onOpenNotes) },
     modifier = modifier,
@@ -75,15 +75,15 @@ fun ModuleDetailScreen(
     modifier = modifier,
   ) {
     item {
-      AssistChip(onClick = onOpenNotes, label = { Text(module.migrationFocus) })
+      AssistChip(onClick = onOpenNotes, label = { Text(module.time) })
       Spacer(Modifier.height(16.dp))
       Text(module.summary, style = MaterialTheme.typography.bodyLarge)
       Spacer(Modifier.height(24.dp))
-      Text("Migration checkpoints", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+      Text("Session details", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
       Spacer(Modifier.height(8.dp))
     }
-    items(module.checkpoints) { checkpoint ->
-      CheckpointRow(checkpoint)
+    items(module.details) { detail ->
+      DetailRow(detail)
     }
   }
 }
@@ -96,8 +96,8 @@ fun LibraryScreen(
   modifier: Modifier = Modifier,
 ) {
   ScreenScaffold(
-    title = "Migration Notes",
-    subtitle = "Short references to use while running the Android Skills demonstration.",
+    title = "Venue Guide",
+    subtitle = "Useful logistics for getting around during the event.",
     contentPadding = contentPadding,
     action = { NotesButton(onOpenNotes) },
     modifier = modifier,
@@ -121,7 +121,7 @@ fun ToolDetailScreen(
     item {
       Text(tool.description, style = MaterialTheme.typography.bodyLarge)
       Spacer(Modifier.height(20.dp))
-      Text("This screen exists to demonstrate a second top-level back stack in Nav2.", style = MaterialTheme.typography.bodyMedium)
+      Text("Saved in the guide so you can find it again without leaving the schedule.", style = MaterialTheme.typography.bodyMedium)
     }
   }
 }
@@ -131,11 +131,11 @@ fun MigrationNotesDialog(onDismiss: () -> Unit) {
   AlertDialog(
     onDismissRequest = onDismiss,
     icon = { Icon(Icons.Filled.Info, contentDescription = null) },
-    title = { Text("Migration scope") },
+    title = { Text("Event notes") },
     text = {
       Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("This baseline intentionally uses Navigation 2 APIs.")
-        Text("It avoids deep links and custom destination types so the official migration guide can proceed without unsupported cases.")
+        Text("Doors open at 09:00. Coffee is available beside the main hall.")
+        Text("The help desk can answer schedule, room, and accessibility questions throughout the day.")
       }
     },
     confirmButton = {
@@ -227,7 +227,7 @@ private fun ModuleCard(module: MigrationModule, onClick: () -> Unit) {
       Spacer(Modifier.height(6.dp))
       Text(module.summary, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
       Spacer(Modifier.height(12.dp))
-      Text(module.migrationFocus, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+      Text(module.time, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
     }
   }
 }
@@ -249,7 +249,7 @@ private fun ToolCard(tool: MigrationTool, onClick: () -> Unit) {
 }
 
 @Composable
-private fun CheckpointRow(text: String) {
+private fun DetailRow(text: String) {
   Surface(
     shape = MaterialTheme.shapes.small,
     color = MaterialTheme.colorScheme.secondaryContainer,

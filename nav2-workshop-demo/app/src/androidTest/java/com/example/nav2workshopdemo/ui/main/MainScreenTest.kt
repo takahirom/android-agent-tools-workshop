@@ -20,9 +20,9 @@ class MainScreenTest {
   }
 
   @Test
-  fun modules_areDisplayed() {
-    composeTestRule.onNodeWithText("Typed route inventory").assertExists()
-    composeTestRule.onNodeWithText("NavController replacement").assertExists()
-    composeTestRule.onNodeWithText("Nested graph flattening").assertExists()
+  fun sessions_areDisplayed() {
+    composeTestRule.onNodeWithText("Opening Keynote").assertExists()
+    composeTestRule.onNodeWithText("Design Systems Clinic").assertExists()
+    composeTestRule.onNodeWithText("Automation Lab").assertExists()
   }
 }

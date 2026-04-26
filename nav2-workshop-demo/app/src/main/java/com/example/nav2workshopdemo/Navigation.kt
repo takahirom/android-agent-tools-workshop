@@ -34,7 +34,7 @@ fun MainNavigation() {
   val topLevelItems =
     listOf(
       TopLevelDestination("Home", HomeGraph, HomeGraph::class) { Icon(Icons.Filled.Home, contentDescription = null) },
-      TopLevelDestination("Library", LibraryGraph, LibraryGraph::class) { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+      TopLevelDestination("Guide", LibraryGraph, LibraryGraph::class) { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
     )
   val backStackEntry by navController.currentBackStackEntryAsState()
   val currentDestination = backStackEntry?.destination

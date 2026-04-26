@@ -4,8 +4,8 @@ data class MigrationModule(
   val id: String,
   val title: String,
   val summary: String,
-  val migrationFocus: String,
-  val checkpoints: List<String>,
+  val time: String,
+  val details: List<String>,
 )
 
 data class MigrationTool(
@@ -18,39 +18,39 @@ object MigrationRepository {
   val modules =
     listOf(
       MigrationModule(
-        id = "routes",
-        title = "Typed route inventory",
-        summary = "Nav2 destinations are already expressed as serializable route types.",
-        migrationFocus = "Step 2: make each route implement NavKey.",
-        checkpoints =
+        id = "keynote",
+        title = "Opening Keynote",
+        summary = "A quick tour of the day and the product themes behind the sessions.",
+        time = "09:30",
+        details =
           listOf(
-            "HomeGraph and LibraryGraph are graph routes.",
-            "ModuleDetailRoute carries the selected module id.",
-            "MigrationNotesDialogRoute is a dialog destination.",
+            "Main hall",
+            "Speaker: Maya Tanaka",
+            "Good for product, design, and engineering attendees.",
           ),
       ),
       MigrationModule(
-        id = "controller",
-        title = "NavController replacement",
-        summary = "The app uses rememberNavController and passes event lambdas to screens.",
-        migrationFocus = "Steps 3 and 4: introduce NavigationState and Navigator.",
-        checkpoints =
+        id = "design-systems",
+        title = "Design Systems Clinic",
+        summary = "Practical patterns for keeping product screens consistent as teams grow.",
+        time = "11:00",
+        details =
           listOf(
-            "Screens do not receive NavController directly.",
-            "Bottom navigation reads currentBackStackEntryAsState.",
-            "Back handling currently delegates to NavController.popBackStack().",
+            "Studio room",
+            "Speaker: Jordan Lee",
+            "Bring one UI consistency issue from your own product.",
           ),
       ),
       MigrationModule(
-        id = "graph",
-        title = "Nested graph flattening",
-        summary = "Two one-level nested graphs model independent top-level sections.",
-        migrationFocus = "Steps 5 and 6: move composable and dialog destinations into entryProvider.",
-        checkpoints =
+        id = "automation",
+        title = "Automation Lab",
+        summary = "Hands-on examples for using agents to make routine product work safer.",
+        time = "14:00",
+        details =
           listOf(
-            "HomeGraph starts at HomeRoute.",
-            "LibraryGraph starts at LibraryRoute.",
-            "The demo avoids deep links and unsupported destination types.",
+            "Workshop room B",
+            "Speaker: Priya Shah",
+            "Laptop recommended for the guided exercise.",
           ),
       ),
     )
@@ -58,14 +58,14 @@ object MigrationRepository {
   val tools =
     listOf(
       MigrationTool(
-        id = "skill",
-        title = "Android navigation-3 skill",
-        description = "Use android skills add navigation-3, then ask the agent to migrate this Nav2 baseline.",
+        id = "venue",
+        title = "Venue Map",
+        description = "Find the main hall, studio room, workshop rooms, restrooms, and quiet seating areas.",
       ),
       MigrationTool(
-        id = "tests",
-        title = "Navigation tests",
-        description = "Run the supplied NavHost test before and after migration to confirm the visible behavior stays stable.",
+        id = "wifi",
+        title = "Wi-Fi and Help Desk",
+        description = "Network: EventGuest. Visit the help desk near registration for access issues or charger loans.",
       ),
     )
 

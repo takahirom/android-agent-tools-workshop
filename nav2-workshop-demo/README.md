@@ -1,8 +1,8 @@
-# Navigation Migration Demo
+# Event Schedule
 
-This is a small Jetpack Compose app designed as a Navigation 2 baseline for a Navigation 3 migration demo.
+This is a small Jetpack Compose event schedule app designed as a Navigation 2 baseline for a Navigation 3 migration demo.
 
-It intentionally uses:
+The user-facing app is deliberately ordinary: a schedule tab, a venue guide tab, detail screens, and an event notes dialog. Under the hood, it intentionally uses:
 
 - `androidx.navigation:navigation-compose:2.9.7`
 - `rememberNavController`
