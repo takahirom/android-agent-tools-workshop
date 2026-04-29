@@ -2,7 +2,15 @@
 
 このリポジトリは、Androidに詳しくない人でも「専門領域のCLI、Skills、Knowledge Baseを使って既存アプリを安全に変更する」流れをAntigravityで体験するためのワークショップ用です。
 
-題材は `event-schedule-demo` という普通のイベント予定表アプリです。アプリの見た目はセッション一覧、会場ガイド、詳細画面、メモダイアログですが、内部ではNavigation 2を使っています。ワークショップではAndroid Skillを使って、この既存アプリをNavigation 3へ移行します。
+題材は `event-schedule-demo` という普通のイベント予定表アプリです。アプリの見た目はセッション一覧、会場ガイド、詳細画面、メモダイアログです。Edge-to-Edge対応がまだ不完全な状態にしてあります。ワークショップではAndroid Skillを使って、Android 15以降で起きやすいシステムバー周りのレイアウト崩れを直します。
+
+## なぜAntigravityで行うのか
+
+Android関連のAIツールは、Android StudioのAgent Modeに一番多く揃っています。Googleが特に力を入れているのも、Android Studio上の開発体験です。
+
+一方で、実際の開発ではClaude Codeなど、Android Studio以外のツールを使うことも多くあります。Googleは、そうしたツールを使っている場合でも、Android開発に必要な情報や操作へアクセスしやすくしようとしています。
+
+このワークショップではAntigravityからAndroid CLI、Skills、Knowledge Baseを利用することで、Android Studio以外の環境でもAndroid向けの開発体験をどう作れるかを体験します。
 
 ## ゴール
 
@@ -10,8 +18,19 @@
 - Android CLIでビルド、起動、UI確認を行う
 - Android Skillsをインストールする
 - Android Knowledge Baseで公式ドキュメントを検索する
-- `navigation-3` Skillを使って既存アプリを移行する
-- ビルド、テスト、エミュレータ確認で「見た目の挙動が変わっていない」ことを確認する
+- `edge-to-edge` Skillを使って既存アプリのレイアウトを修正する
+- ビルド、テスト、エミュレータ確認で「システムバーにUIが被っていない」ことを確認する
+
+## 事前準備
+
+開始前に、手元のPCで以下を確認してください。
+
+- GoogleアカウントでAntigravityにサインインできる
+- GitHubからこのリポジトリをcloneできる
+- Android SDK、Android Emulator、JDKを使える、またはAndroid CLIに作成を依頼できる
+- エラーが出たときに、エラー文をコピーしてAntigravityに渡せる
+
+このワークショップでは、AndroidやWindowInsets APIを暗記することよりも、公式SkillとKnowledge Baseを使って確認可能な形で作業を進めることを重視します。
 
 ## 0. Antigravityをセットアップしよう
 
@@ -57,13 +76,33 @@ macOSでは、ダウンロードしたAntigravityを `Applications` にドラッ
 git@github.com:takahirom/android-agent-tools-workshop.git
 ```
 
-すでにclone済みの場合は、`Open Folder` でこのリポジトリのフォルダを開きます。手元に `workshop` フォルダがある場合は、そのフォルダを選びます。
-
-![Antigravity open folder](images/annotated-open-folder.png)
-
 フォルダを開いたあと、信頼確認のダイアログが表示された場合は、対象フォルダがこのワークショップ用リポジトリであることを確認して `Yes, I trust the authors` を押します。
 
 ![Antigravity trust authors](images/annotated-trust-authors.png)
+
+## Antigravityを使うときのコツ
+
+### Planを使う場面
+
+`Plan` は、すぐにファイル変更を始めず、先に作業方針や変更対象を整理して確認するためのモードです。Edge-to-Edge対応のように、どの画面のどのinsetを扱うかを先に見たい作業では `Plan` を有効にします。
+
+計画を確認して問題なければ、その後に実装へ進めます。`Plan` は安全に進めるための確認ステップであり、クォータ節約そのものを目的にした機能ではありません。
+
+### モデルと依頼の粒度を調整する
+
+エージェントに調査、実装、テスト、画面確認をまとめて任せるほどクォータを消費します。ワークショップ中は、作業を小さく分けて、必要な情報をこちらから渡すようにします。複雑な修正方針の検討は `Gemini 3.1 Pro` 系、試行や軽い確認は `Gemini 3 Flash` 系のように、作業の重さに合わせてモデルを切り替えます。
+
+- 1回の依頼では目的を1つに絞る
+- 実装、QA、README修正は別の依頼に分ける
+- 画面の見た目は自分で確認し、気づいたことを言葉で伝える
+- エラーログはコピーしてチャットに貼る
+- うまく進まない場合は、会話を分けるかモデルを切り替える
+
+### 成果物を確認する
+
+エージェントの作業後は、説明だけで判断せず、変更差分、実行したコマンド、テスト結果、Emulator上の画面を確認します。Antigravityが作るWalkthroughやTask Listは、何を変更したかを追う入口として使います。
+
+`Failed to send` のようにチャット送信自体が失敗する場合は、一度Antigravityからログアウトし、再度Googleアカウントでサインインしてから試してください。
 
 ## 1. AntigravityでEmulatorを起動してみよう
 
@@ -77,6 +116,10 @@ android cliを使って、Phone系のEmulatorを起動してください。
 起動後、adb devices -l で device 状態になっていることを確認してください。
 ```
 
+この依頼を実行したあとに `Agent terminated due to error` が表示された場合、モデルの空き容量が不足している可能性があります。`Retry` しても同じ表示になる場合は、入力欄のモデル名を押して `Gemini 3 Flash` など別のモデルに切り替えてから、もう一度実行してください。
+
+![Antigravity no capacity available](images/antigravity-no-capacity-available.png)
+
 エージェントは必要に応じて、次のようなコマンドを使います。
 
 ```bash
@@ -86,44 +129,42 @@ android emulator start --cold <AVD_NAME>
 adb devices -l
 ```
 
-Antigravity経由では、Emulator起動を `while true` で維持する必要はない想定です。
+`emulator-5554 device ...` のように `device` 状態のEmulatorが表示されればOKです。表示されたserialは、このあとの `--device=<DEVICE_SERIAL>` に指定します。以降の例では `<DEVICE_SERIAL>` と書きます。
 
-続いて、エージェントに `GEMINI.md` を作ってもらいます。目的は「このリポジトリではEmulatorを実際に起動して確認する」「画面確認ではAndroid CLIの出力を証跡として残す」という作業ルールを残すことです。
+## 2. Emulatorでアプリを起動してみよう
+
+ここでは、エージェントにデバッグアプリのビルド、インストール、起動を依頼します。
 
 依頼文の例です。
 
 ```text
-このリポジトリ用の GEMINI.md を作ってください。
-Android Emulator を実際に起動して確認すること、
-Antigravity経由では while true で起動維持しなくてよいこと、
-使うAVD名は android cli で確認または作成すること、
-Play Store付きAVDで unauthorized になる場合は Google APIs 系のAVDを試すこと、
-画面確認では android screen capture -a と android layout を使うことを書いてください。
+event-schedule-demo のデバッグアプリをビルドして、Emulatorにインストールし、アプリを起動してください。
+デバイスserialは、前の手順で確認したEmulatorのserialを使ってください。
 ```
 
-`emulator-5554 device ...` のように表示されればOKです。以降の例では `emulator-5554` を使いますが、自分の環境で別のserialが表示された場合は読み替えてください。
-
-## 2. Emulatorでアプリを起動してみよう
-
-アプリをビルドします。
+エージェントは必要に応じて、次のようなコマンドを使います。
 
 ```bash
 cd event-schedule-demo
 ./gradlew :app:assembleDebug
+android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=<DEVICE_SERIAL>
 ```
 
-Emulatorへインストールして起動します。
+アプリが起動すればOKです。
 
-```bash
-android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=emulator-5554
-```
+## 3. AIがどうやってアプリを見ているか理解しよう
 
-起動したら、まずAndroid CLIが画面をどう見ているかを確認します。ここは参加者が手で実行して、注釈付きPNGとlayout JSONが生成されることを確かめる時間にします。
+ここでは、AntigravityのTerminalを開き、Android CLIを自分で実行してみます。エージェントも同じようにCLIの出力、スクリーンショット、layout JSONを見ながらAndroidアプリを確認します。
+
+画面右上のTerminalアイコンを押して、Terminalを開きます。
+
+![Antigravity open terminal](images/antigravity-open-terminal.png)
+
+起動済みのアプリに対して、Android CLIが画面をどう見ているかを確認します。ここは参加者が手で実行して、注釈付きPNGとlayout JSONが生成されることを確かめる時間にします。
 
 macOS / Linux の例です。
 
 ```bash
-mkdir -p artifacts/android
 android screen capture -a -o artifacts/android/event-schedule-annotated.png
 android layout --pretty -o artifacts/android/event-schedule-layout.json
 ```
@@ -131,7 +172,6 @@ android layout --pretty -o artifacts/android/event-schedule-layout.json
 Windows PowerShell の例です。
 
 ```powershell
-New-Item -ItemType Directory -Force artifacts/android
 android screen capture -a -o artifacts/android/event-schedule-annotated.png
 android layout --pretty -o artifacts/android/event-schedule-layout.json
 ```
@@ -146,62 +186,60 @@ android screen resolve --screenshot=artifacts/android/event-schedule-annotated.p
 
 ホーム画面で実行すると注釈が多くなり、何を見ているのか分かりにくくなります。このワークショップでは、アプリを起動してから `screen capture -a` と `layout` を実行します。
 
-そのうえで、最低限以下を触ってみます。
+通常のスクリーンショットでは、次のように画面上部のタイトルがstatus barに近すぎたり、画面下部のnavigation bar周りに余白が足りなかったりすることが確認できます。
 
-- `Event Schedule` にセッション一覧が表示される
-- セッションを開いて詳細画面へ遷移できる
-- `Guide` タブへ移動できる
-- `Notes` からイベントメモのダイアログを開ける
-- AndroidのBackで前の画面に戻れる
+<img src="images/event-schedule-before-edge-to-edge.png" alt="Edge-to-Edge before" width="320">
 
-## 3. Android Skillsをインストールしよう
+これはEdge-to-Edgeと呼ばれる、画面の端までアプリを描画する表示に対して、レイアウト側の対応が不十分な状態です。このワークショップでは、この問題に対応していきます。
 
-Navigation 3用のSkillを探します。
+## 4. Android Skillsをインストールしよう
+
+Edge-to-Edge用のSkillを探します。
 
 ```bash
-android skills find nav
+android skills find edge
 ```
 
-`navigation-3` が見つかったらインストールします。
+`edge-to-edge` が見つかったらインストールします。
 
 ```bash
-android skills add navigation-3
+android skills add --skill=edge-to-edge
 ```
 
-## 4. Knowledge Baseで公式情報を見てみよう
+## 5. Knowledge Baseで公式情報を見てみよう
 
-Android CLIには、Android公式ドキュメントを検索するKnowledge Baseコマンドがあります。移行作業に入る前に、Navigation 3の移行ガイドを検索してみます。
+Android CLIには、Android公式ドキュメントを検索するKnowledge Baseコマンドがあります。修正作業に入る前に、Edge-to-EdgeとWindowInsetsの情報を検索してみます。
 
 ```bash
-android docs search "Migrate from Navigation 2 to Navigation 3"
+android docs search "Edge-to-edge Compose WindowInsets Android 15"
 ```
 
-検索結果に `kb://android/guide/navigation/navigation-3/migration-guide` のようなURLが出たら、内容を取得します。
+検索結果にEdge-to-EdgeやWindowInsetsに関する `kb://android/...` のURLが出たら、内容を取得します。
 
 ```bash
-android docs fetch kb://android/guide/navigation/navigation-3/migration-guide
+android docs fetch <検索結果のkb:// URL>
 ```
 
 ここで見たいのは、細かいAPIを覚えることではありません。エージェントが作業前に公式情報へアクセスし、前提条件や未対応機能を確認できることです。
 
-## 5. Navigation 2からNavigation 3へ移行しよう
+## 6. Edge-to-Edgeの未対応箇所を修正しよう
 
 ここからはエージェントに作業させます。依頼文の例です。
 
 ```text
-event-schedule-demo を Navigation 2 から Navigation 3 に移行してください。
-公式の navigation-3 skill と Android Knowledge Base の migration guide に従ってください。
-既存の画面や操作感は変えず、ビルド、テスト、Emulatorでの動作確認まで行ってください。
+event-schedule-demo の Edge-to-Edge 対応を完成させてください。
+公式の edge-to-edge skill と Android Knowledge Base の情報に従ってください。
+既存の画面遷移や操作感は変えず、システムバーにUIが被らないようにしてください。
+最後にビルド、テスト、Emulatorでのスクショ確認まで行ってください。
 ```
 
-移行中に主に変わるファイルはこのあたりです。
+修正中に主に見るファイルはこのあたりです。
 
-- `event-schedule-demo/app/src/main/java/com/example/eventschedule/NavigationKeys.kt`
+- `event-schedule-demo/app/src/main/java/com/example/eventschedule/MainActivity.kt`
 - `event-schedule-demo/app/src/main/java/com/example/eventschedule/Navigation.kt`
-- `event-schedule-demo/app/build.gradle.kts`
-- `event-schedule-demo/gradle/libs.versions.toml`
+- `event-schedule-demo/app/src/main/java/com/example/eventschedule/ui/main/MainScreen.kt`
 
-## 6. 移行後に確認しよう
+## 7. 修正後に確認しよう
 
 ビルドとテストを実行します。
 
@@ -213,20 +251,21 @@ cd event-schedule-demo
 もう一度Emulatorで起動します。
 
 ```bash
-android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=emulator-5554
+android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=<DEVICE_SERIAL>
 ```
 
-移行前と同じように以下を確認します。
+以下を確認します。
 
 - セッション一覧が表示される
 - セッション詳細へ遷移できる
 - `Guide` タブへ移動できる
 - メモダイアログを開閉できる
 - Back操作が破綻していない
+- タイトル、戻るボタン、リスト下部、ダイアログがstatus bar / navigation barに被っていない
 
-## 7. 発展: QA担当として確認してもらおう
+## 8. 発展: QA担当として確認してもらおう
 
-普通は、移行後にアプリが本当に動くかを自分で確認します。ただし、毎回手でEmulatorを起動して、画面を触って、ログを見るのは面倒です。
+普通は、変更後にアプリが本当に動くかを自分で確認します。ただし、毎回手でEmulatorを起動して、画面を触って、ログを見るのは面倒です。
 
 ここでは発展項目として、AntigravityにQA担当として振る舞ってもらうための作業ルールを作ります。QA担当のルール自体は、このアプリ専用ではなく「Androidアプリの変更後確認を担当する汎用ルール」として作ります。具体的な確認シナリオは、依頼するときに渡します。
 
@@ -252,8 +291,8 @@ android run --apks=app/build/outputs/apk/debug/app-debug.apk --device=emulator-5
 
 ```text
 QA担当として event-schedule-demo を確認してください。
-Navigation 3 移行後も主要フローが壊れていないか、
-ビルド、テスト、Emulator起動、UI操作まで確認してください。
+Edge-to-Edge 対応後も主要フローが壊れていないか、
+ビルド、テスト、Emulator起動、UI操作、確認用スクショ保存まで行ってください。
 
 確認シナリオ:
 - Event Schedule が表示される
@@ -261,19 +300,28 @@ Navigation 3 移行後も主要フローが壊れていないか、
 - Guide タブへ移動できる
 - Notes ダイアログを開閉できる
 - Android Backで戻れる
+- status bar / navigation bar と主要UIの重なりが疑われる箇所があれば報告する
 ```
 
-この発展項目で見たいのは、「確認作業もエージェントに任せられるか」です。移行そのものだけでなく、移行後のQAまで分担できると、実際の開発作業に近づきます。
+この発展項目で見たいのは、「確認作業もエージェントに任せられるか」です。Edge-to-Edgeの最終判断はスクショを見て人間も確認しますが、ビルド、起動、操作、証跡保存を分担できると、実際の開発作業に近づきます。
 
-## 8. ふりかえり
+## 9. ふりかえり
 
-このワークショップで見たいポイントは、Navigation APIそのものの暗記ではありません。
+このワークショップで見たいポイントは、WindowInsets APIそのものの暗記ではありません。
 
-- 公式Skillが移行前提を確認できるか
+- 公式Skillが修正方針を確認できるか
 - Knowledge Baseで公式ドキュメントを根拠にできるか
 - エージェントが既存挙動を壊さずに変更できるか
 - QA担当に確認作業を委任できるか
 - ビルド、テスト、Emulator確認まで進められるか
 - 知らない技術領域でも、確認可能な形で作業を任せられるか
 
-ここまでできればワークショップとしては完了です。時間が余った場合は、移行前後の `Navigation.kt` を見比べて、`NavHost` / `NavController` から `NavDisplay` / back stack管理へどう変わったかを確認します。
+ここまでできればワークショップとしては完了です。時間が余った場合は、どの画面でどのinsetが必要だったかを見直します。
+
+## 参考資料
+
+- [Antigravity公式サイト](https://antigravity.google/)
+- [Antigravity公式ドキュメント](https://antigravity.google/docs)
+- [Antigravity plans](https://antigravity.google/docs/plans)
+- [Getting Started with Google Antigravity Codelab](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=ja)
+- [antigravity-hands-on-gdg-sapporo](https://github.com/yanzm/antigravity-hands-on-gdg-sapporo)

@@ -1,17 +1,14 @@
 package com.example.eventschedule
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
-@Serializable data object HomeGraph
+@Serializable data object HomeRoute : NavKey
 
-@Serializable data object LibraryGraph
+@Serializable data class ModuleDetailRoute(val moduleId: String) : NavKey
 
-@Serializable data object HomeRoute
+@Serializable data object LibraryRoute : NavKey
 
-@Serializable data class ModuleDetailRoute(val moduleId: String)
+@Serializable data class ToolDetailRoute(val toolId: String) : NavKey
 
-@Serializable data object LibraryRoute
-
-@Serializable data class ToolDetailRoute(val toolId: String)
-
-@Serializable data object MigrationNotesDialogRoute
+@Serializable data object MigrationNotesDialogRoute : NavKey

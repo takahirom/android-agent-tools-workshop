@@ -1,22 +1,12 @@
 # Event Schedule
 
-This is a small Jetpack Compose event schedule app designed as a Navigation 2 baseline for a Navigation 3 migration demo.
+This is a small Jetpack Compose event schedule app designed for an Edge-to-Edge workshop.
 
-The user-facing app is deliberately ordinary: a schedule tab, a venue guide tab, detail screens, and an event notes dialog. Under the hood, it intentionally uses:
-
-- `androidx.navigation:navigation-compose:2.9.7`
-- `rememberNavController`
-- `NavHost`
-- type-safe serializable routes
-- one-level nested top-level graphs
-- a dialog destination
-- bottom navigation with saved top-level state
-
-It intentionally avoids deep links and custom destination types because those are not covered by the official Navigation 2 to Navigation 3 migration guide.
+The user-facing app is deliberately ordinary: a schedule tab, a venue guide tab, detail screens, and an event notes dialog. It intentionally leaves the Edge-to-Edge layout incomplete so the workshop can focus on fixing system bar overlap with Android documentation, skills, build checks, and screenshots.
 
 ## Demo Flow
 
-1. Build the Nav2 baseline:
+1. Build the app:
 
    ```bash
    ./gradlew :app:compileDebugKotlin
@@ -25,24 +15,25 @@ It intentionally avoids deep links and custom destination types because those ar
 2. Install or select the official Android skill:
 
    ```bash
-   android skills add navigation-3
+   android skills add --skill=edge-to-edge
    ```
 
-3. Ask the agent to migrate the project:
+3. Ask the agent to fix the Edge-to-Edge layout:
 
    ```text
-   Migrate this app from Navigation 2 to Navigation 3 using the official migration guide.
+   Fix the incomplete Edge-to-Edge handling in this app.
+   Use the official edge-to-edge skill and Android documentation.
+   Keep the existing screen transitions and user-facing behavior unchanged.
    ```
 
-4. Verify the migration by rerunning the build and tests:
+4. Verify the change by rerunning the build and tests:
 
    ```bash
    ./gradlew :app:compileDebugKotlin :app:testDebugUnitTest
    ```
 
-## Files To Watch During Migration
+## Files To Watch During The Workshop
 
-- `app/src/main/java/com/example/eventschedule/NavigationKeys.kt`
 - `app/src/main/java/com/example/eventschedule/Navigation.kt`
-- `app/build.gradle.kts`
-- `gradle/libs.versions.toml`
+- `app/src/main/java/com/example/eventschedule/MainActivity.kt`
+- `app/src/main/java/com/example/eventschedule/ui/main/MainScreen.kt`

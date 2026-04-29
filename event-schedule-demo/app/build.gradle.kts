@@ -78,7 +78,7 @@ dependencies {
   androidTestImplementation(libs.androidx.test.runner)
   androidTestImplementation(libs.androidx.test.espresso.core)
 
-  // Navigation 2 baseline for the migration demo
-  implementation(libs.androidx.navigation.compose)
-  androidTestImplementation(libs.androidx.navigation.testing)
+  // App navigation
+  implementation(libs.androidx.navigation3.runtime)
+  implementation(libs.androidx.navigation3.ui)
 }

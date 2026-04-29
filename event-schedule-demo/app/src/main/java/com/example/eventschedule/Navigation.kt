@@ -1,5 +1,6 @@
 package com.example.eventschedule
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
@@ -9,51 +10,40 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.dialog
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.scene.DialogSceneStrategy
+import androidx.navigation3.ui.NavDisplay
 import com.example.eventschedule.ui.main.HomeScreen
 import com.example.eventschedule.ui.main.LibraryScreen
 import com.example.eventschedule.ui.main.MigrationNotesDialog
 import com.example.eventschedule.ui.main.ModuleDetailScreen
 import com.example.eventschedule.ui.main.ToolDetailScreen
-import kotlin.reflect.KClass
 
 @Composable
 fun MainNavigation() {
-  val navController = rememberNavController()
   val topLevelItems =
     listOf(
-      TopLevelDestination("Home", HomeGraph, HomeGraph::class) { Icon(Icons.Filled.Home, contentDescription = null) },
-      TopLevelDestination("Guide", LibraryGraph, LibraryGraph::class) { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+      TopLevelDestination("Home", HomeRoute) { Icon(Icons.Filled.Home, contentDescription = null) },
+      TopLevelDestination("Guide", LibraryRoute) { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
     )
-  val backStackEntry by navController.currentBackStackEntryAsState()
-  val currentDestination = backStackEntry?.destination
+  val navigationState =
+    rememberNavigationState(
+      startRoute = HomeRoute,
+      topLevelRoutes = topLevelItems.map { it.route }.toSet(),
+    )
+  val navigator = remember(navigationState) { Navigator(navigationState) }
+  val dialogSceneStrategy = remember { DialogSceneStrategy<NavKey>() }
 
   Scaffold(
+    contentWindowInsets = WindowInsets(0, 0, 0, 0),
     bottomBar = {
-      NavigationBar {
+      NavigationBar(windowInsets = WindowInsets(0, 0, 0, 0)) {
         topLevelItems.forEach { destination ->
           NavigationBarItem(
-            selected = currentDestination.isRouteInHierarchy(destination.routeClass),
-            onClick = {
-              navController.navigate(destination.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                  saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
-              }
-            },
+            selected = destination.route == navigationState.topLevelRoute,
+            onClick = { navigator.navigate(destination.route) },
             icon = destination.icon,
             label = { Text(destination.label) },
           )
@@ -61,59 +51,54 @@ fun MainNavigation() {
       }
     },
   ) { innerPadding ->
-    NavHost(navController = navController, startDestination = HomeGraph) {
-      navigation<HomeGraph>(startDestination = HomeRoute) {
-        composable<HomeRoute> {
+    val entryProvider =
+      entryProvider {
+        entry<HomeRoute> {
           HomeScreen(
             contentPadding = innerPadding,
-            onModuleClick = { moduleId -> navController.navigate(ModuleDetailRoute(moduleId)) },
-            onOpenNotes = { navController.navigate(MigrationNotesDialogRoute) },
+            onModuleClick = { moduleId -> navigator.navigate(ModuleDetailRoute(moduleId)) },
+            onOpenNotes = { navigator.navigate(MigrationNotesDialogRoute) },
           )
         }
-        composable<ModuleDetailRoute> { entry ->
-          val route = entry.toRoute<ModuleDetailRoute>()
+        entry<ModuleDetailRoute> { route ->
           ModuleDetailScreen(
             moduleId = route.moduleId,
             contentPadding = innerPadding,
-            onBack = { navController.popBackStack() },
-            onOpenNotes = { navController.navigate(MigrationNotesDialogRoute) },
+            onBack = { navigator.goBack() },
+            onOpenNotes = { navigator.navigate(MigrationNotesDialogRoute) },
           )
         }
-        dialog<MigrationNotesDialogRoute> {
-          MigrationNotesDialog(onDismiss = { navController.popBackStack() })
-        }
-      }
-
-      navigation<LibraryGraph>(startDestination = LibraryRoute) {
-        composable<LibraryRoute> {
+        entry<LibraryRoute> {
           LibraryScreen(
             contentPadding = innerPadding,
-            onToolClick = { toolId -> navController.navigate(ToolDetailRoute(toolId)) },
-            onOpenNotes = { navController.navigate(MigrationNotesDialogRoute) },
+            onToolClick = { toolId -> navigator.navigate(ToolDetailRoute(toolId)) },
+            onOpenNotes = { navigator.navigate(MigrationNotesDialogRoute) },
           )
         }
-        composable<ToolDetailRoute> { entry ->
-          val route = entry.toRoute<ToolDetailRoute>()
+        entry<ToolDetailRoute> { route ->
           ToolDetailScreen(
             toolId = route.toolId,
             contentPadding = innerPadding,
-            onBack = { navController.popBackStack() },
+            onBack = { navigator.goBack() },
           )
         }
-        dialog<MigrationNotesDialogRoute> {
-          MigrationNotesDialog(onDismiss = { navController.popBackStack() })
+        entry<MigrationNotesDialogRoute>(
+          metadata = DialogSceneStrategy.dialog(),
+        ) {
+          MigrationNotesDialog(onDismiss = { navigator.goBack() })
         }
       }
-    }
+
+    NavDisplay(
+      entries = navigationState.toEntries(entryProvider),
+      onBack = { navigator.goBack() },
+      sceneStrategy = dialogSceneStrategy,
+    )
   }
 }
 
 private data class TopLevelDestination(
   val label: String,
-  val route: Any,
-  val routeClass: KClass<*>,
+  val route: NavKey,
   val icon: @Composable () -> Unit,
 )
-
-private fun NavDestination?.isRouteInHierarchy(route: KClass<*>): Boolean =
-  this?.hierarchy?.any { it.hasRoute(route) } == true

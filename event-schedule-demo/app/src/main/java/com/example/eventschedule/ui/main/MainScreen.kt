@@ -160,7 +160,7 @@ private fun ScreenScaffold(
     contentPadding =
       PaddingValues(
         start = 20.dp,
-        top = contentPadding.calculateTopPadding() + 24.dp,
+        top = contentPadding.calculateTopPadding(),
         end = 20.dp,
         bottom = contentPadding.calculateBottomPadding() + 24.dp,
       ),
@@ -195,7 +195,7 @@ private fun DetailScaffold(
     contentPadding =
       PaddingValues(
         start = 20.dp,
-        top = contentPadding.calculateTopPadding() + 12.dp,
+        top = contentPadding.calculateTopPadding(),
         end = 20.dp,
         bottom = contentPadding.calculateBottomPadding() + 24.dp,
       ),
