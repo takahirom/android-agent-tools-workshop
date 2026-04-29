@@ -1,3 +1,6 @@
 .DS_Store
 
-artifacts/
+artifacts/*
+!artifacts/android/
+artifacts/android/*
+!artifacts/android/.gitkeep
