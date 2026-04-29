@@ -21,35 +21,35 @@
 
 macOSでは、ダウンロードしたAntigravityを `Applications` にドラッグ&ドロップしてから起動します。
 
-![Antigravity installer](images/Screenshot%202026-04-29%20at%202.46.40%E2%80%AFPM.png)
+![Antigravity installer](images/annotated-install-drag-to-applications.png)
 
 初回起動したら、Welcome画面で `Next` を押します。
 
-![Antigravity welcome](images/Screenshot%202026-04-29%20at%203.37.37%E2%80%AFPM.png)
+![Antigravity welcome](images/annotated-welcome-next.png)
 
 テーマ選択では `Dark Modern` のまま `Next` を押します。別のテーマを選んでも、このワークショップの手順には影響しません。
 
-![Antigravity theme](images/Screenshot%202026-04-29%20at%203.37.42%E2%80%AFPM.png)
+![Antigravity theme](images/annotated-theme-next.png)
 
 利用方法の選択では `Review-driven development` のまま `Next` を押します。
 
-![Antigravity use case](images/Screenshot%202026-04-29%20at%203.37.46%E2%80%AFPM.png)
+![Antigravity use case](images/annotated-use-case-next.png)
 
 エディタ設定では `Normal`、`Recommended`、`Install` のまま `Next` を押します。
 
-![Antigravity editor settings](images/Screenshot%202026-04-29%20at%203.37.51%E2%80%AFPM.png)
+![Antigravity editor settings](images/annotated-editor-next.png)
 
 `Sign in with Google` を押して、Googleアカウントでサインインします。
 
-![Antigravity sign in](images/Screenshot%202026-04-29%20at%203.37.56%E2%80%AFPM.png)
+![Antigravity sign in](images/annotated-sign-in-google.png)
 
 利用規約を確認します。1つ目のチェックが入っていることを確認して、`Next` を押します。
 
-![Antigravity terms](images/Screenshot%202026-04-29%20at%203.38.55%E2%80%AFPM.png)
+![Antigravity terms](images/annotated-terms-next.png)
 
 セットアップが終わったら、まだリポジトリをcloneしていない場合は `Clone Repository` を押します。
 
-![Antigravity clone repository](images/Screenshot%202026-04-29%20at%206.33.53%E2%80%AFPM.png)
+![Antigravity clone repository](images/annotated-clone-repository.png)
 
 表示された入力欄に、次のURLを入力してcloneします。
 
@@ -59,11 +59,11 @@ git@github.com:takahirom/android-agent-tools-workshop.git
 
 すでにclone済みの場合は、`Open Folder` でこのリポジトリのフォルダを開きます。手元に `workshop` フォルダがある場合は、そのフォルダを選びます。
 
-![Antigravity open folder](images/Screenshot%202026-04-29%20at%203.39.28%E2%80%AFPM.png)
+![Antigravity open folder](images/annotated-open-folder.png)
 
 フォルダを開いたあと、信頼確認のダイアログが表示された場合は、対象フォルダがこのワークショップ用リポジトリであることを確認して `Yes, I trust the authors` を押します。
 
-![Antigravity trust authors](images/Screenshot%202026-04-29%20at%206.41.34%E2%80%AFPM.png)
+![Antigravity trust authors](images/annotated-trust-authors.png)
 
 ## 1. AntigravityでEmulatorを起動してみよう
 
