@@ -61,6 +61,10 @@ git@github.com:takahirom/android-agent-tools-workshop.git
 
 ![Antigravity open folder](images/Screenshot%202026-04-29%20at%203.39.28%E2%80%AFPM.png)
 
+フォルダを開いたあと、信頼確認のダイアログが表示された場合は、対象フォルダがこのワークショップ用リポジトリであることを確認して `Yes, I trust the authors` を押します。
+
+![Antigravity trust authors](images/Screenshot%202026-04-29%20at%206.41.34%E2%80%AFPM.png)
+
 ## 1. AntigravityでEmulatorを起動してみよう
 
 まず、AntigravityでエージェントにAndroid CLIを使ってEmulatorを起動してもらいます。手元に使えるEmulatorがない場合は、作成から依頼します。
