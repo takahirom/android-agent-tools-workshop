@@ -1,8 +1,8 @@
 # Android Agent ToolsをAntigravityで学ぼう
 
-このリポジトリは、Androidに詳しくない人でも「専門領域のCLI、Skills、Knowledge Baseを使って既存アプリを安全に変更する」流れをAntigravityで体験するためのワークショップ用です。
+このリポジトリは、「AndroidのCLI、Skills、Knowledge Baseを使って既存アプリを安全に変更する」流れをAntigravityで体験するためのワークショップ用です。
 
-題材は `event-schedule-demo` という普通のイベント予定表アプリです。アプリの見た目はセッション一覧、会場ガイド、詳細画面、メモダイアログです。Edge-to-Edge対応がまだ不完全な状態にしてあります。ワークショップではAndroid Skillを使って、Android 15以降で起きやすいシステムバー周りのレイアウト崩れを直します。
+題材は `event-schedule-demo` という普通のイベント予定表アプリです。アプリの見た目はセッション一覧、会場ガイド、詳細画面、メモダイアログです。一部分がまだ不完全な状態にしてあります。ワークショップではAndroid Skillを使って、Android 15以降で起きやすいシステムバー周りのレイアウト崩れを直します。
 
 ## なぜAntigravityで行うのか
 
@@ -88,9 +88,9 @@ git@github.com:takahirom/android-agent-tools-workshop.git
 
 ![Antigravity trust authors](images/annotated-trust-authors.png)
 
-## Antigravityを使うときのコツ
+## ワークショップ中のAntigravity設定
 
-### 無料アカウントでの制限について
+### クォータを使い切らないようにする
 
 Antigravityは無料アカウントでも利用できますが、使用量には制限があります。制限に達すると、しばらくエージェントを使えなかったり、モデルを切り替える必要が出たりする場合があります。
 
@@ -106,9 +106,11 @@ Antigravityは無料アカウントでも利用できますが、使用量には
 
 ![Antigravity disable Plan](images/antigravity-disable-plan.png)
 
-### モデルと依頼の粒度を調整する
+### Gemini 3 Flashで進める
 
-エージェントに調査、実装、テスト、画面確認をまとめて任せるほどクォータを消費します。ワークショップ中は、作業を小さく分けて、必要な情報をこちらから渡すようにします。複雑な修正方針の検討は `Gemini 3.1 Pro` 系、試行や軽い確認は `Gemini 3 Flash` 系のように、作業の重さに合わせてモデルを切り替えます。
+このワークショップでは、クォータを使い切らないように `Gemini 3 Flash` を推奨します。
+
+エージェントに調査、実装、テスト、画面確認をまとめて任せるほどクォータを消費します。ワークショップ中は、作業を小さく分けて、必要な情報をこちらから渡すようにします。
 
 - 1回の依頼では目的を1つに絞る
 - 実装、QA、README修正は別の依頼に分ける
@@ -179,6 +181,10 @@ android skills list
 
 まず、AntigravityでエージェントにAndroid CLIを使ってEmulatorを起動してもらいます。手元に使えるEmulatorがない場合は、作成から依頼します。
 
+> [!IMPORTANT]
+> Windowsで参加している場合は、Android CLIのEmulator作成・起動コマンドではなく、先に [WINDOWS_EMULATOR_SETUP.md](WINDOWS_EMULATOR_SETUP.md) の手順でEmulatorを起動してください。
+> Emulatorが起動してdevice serialを確認できたら、この章の残りは飛ばして「3. Emulatorでアプリを起動してみよう」へ進みます。
+
 右側のAgent入力欄に依頼文を入力します。
 
 ![Antigravity agent input](images/antigravity-agent-input.png)
@@ -186,7 +192,8 @@ android skills list
 依頼文の例です。
 
 ```text
-android cliを使って、Phone系のEmulatorを起動してください。
+Android CLIを使って、Phone系のEmulatorを起動してください。
+Android SDK自体が入っていない場合は、必要なAndroid SDKもAndroid CLIを使ってインストールしてください。
 必要ならEmulatorを作成してください。
 起動後、adb devices -l で device 状態になっていることを確認してください。
 ```
@@ -203,7 +210,7 @@ android cliを使って、Phone系のEmulatorを起動してください。
 
 ```bash
 android emulator list
-android emulator create
+android emulator create --profile=medium_phone
 android emulator start --cold <AVD_NAME>
 adb devices -l
 ```
@@ -241,7 +248,7 @@ Terminalにコマンドを入力して実行します。
 
 起動済みのアプリに対して、Android CLIが画面をどう見ているかを確認します。ここは参加者が手で実行して、注釈付きPNGとlayout JSONが生成されることを確かめる時間にします。
 
-macOS / Linux の例です。
+リポジトリルートで実行します。macOS / Linux の例です。
 
 ```bash
 android screen capture -a -o artifacts/android/event-schedule-annotated.png
@@ -296,7 +303,7 @@ android docs search "Edge-to-edge Compose WindowInsets Android 15"
 検索結果にEdge-to-EdgeやWindowInsetsに関する `kb://android/...` のURLが出たら、内容を取得します。
 
 ```bash
-android docs fetch <検索結果のkb:// URL>
+android docs fetch <KB_URL>
 ```
 
 ここで見たいのは、細かいAPIを覚えることではありません。エージェントが作業前に公式情報へアクセスし、前提条件や未対応機能を確認できることです。
@@ -317,17 +324,22 @@ event-schedule-demo の Edge-to-Edge 対応を完成させてください。
 - `event-schedule-demo/app/src/main/java/com/example/eventschedule/Navigation.kt`
 - `event-schedule-demo/app/src/main/java/com/example/eventschedule/ui/main/MainScreen.kt`
 
-## 8. 発展: AIにAndroid CLIで実機操作させて、確認してもらえるスキルを作ろう
+## 8. 発展: AIにAndroid CLIで実機操作させて、確認してもらえるスキルを用意しよう
 
 普通は、変更後にアプリが本当に動くかを自分で確認します。ただし、毎回手でEmulatorを起動して、画面を触って、ログを見るのは面倒です。
 
-ここでは発展項目として、Android CLIでアプリをビルド、起動、操作、確認するためのAgent Skillを作ります。Antigravityのワークスペース用Skillは `.agents/skills/<skill-name>/SKILL.md` に置きます。
+ここでは発展項目として、Android CLIでアプリをビルド、起動、操作、確認するためのAgent Skillを用意します。Antigravityのワークスペース用Skillは `.agents/skills/<skill-name>/SKILL.md` に置きます。一度用意しておくと、今後のAndroidアプリ開発でも変更後の確認作業に使い回せます。
 
-このリポジトリには、書き始めやすいように `.agents.template` を用意しています。Explorerで `.agents.template` を右クリックし、`Rename...` を選んで `.agents` に変更します。
+このリポジトリには、書き始めやすいように `.agents.template` を用意しています。すでに `edge-to-edge` Skillを追加している場合は `.agents` ディレクトリが存在するため、リネームではなく、エージェントにテンプレートをコピーしてもらいます。
 
-<img src="images/antigravity-rename-agents-template.png" alt="Rename .agents.template" width="420">
+依頼文の例です。
 
-リネーム後、次のファイルを開いてTODOを埋めます。
+```text
+.agents.template/skills/android-app-qa を .agents/skills/android-app-qa にコピーしてください。
+既存の .agents ディレクトリや edge-to-edge Skill は残してください。
+```
+
+コピー後、次のファイルを開いて本文を編集します。
 
 ```text
 .agents/skills/android-app-qa/SKILL.md
@@ -336,37 +348,38 @@ event-schedule-demo の Edge-to-Edge 対応を完成させてください。
 たとえば、次のような内容を書きます。
 
 ```text
-目的:
-- Androidアプリの変更後に、ビルド、テスト、Emulatorでの起動確認を行う
-- ユーザーから渡された確認シナリオに沿ってUIを操作する
-- 失敗した場合は原因を報告する
-- 可能なら android screen capture -a のPNGや android layout のJSONを証跡として残す
-
 確認手順:
-1. 対象アプリ、ビルドコマンド、APKパス、デバイスserialを確認する
-2. 情報が足りない場合は、リポジトリを読んで合理的に推測する
-3. ビルドとテストを実行する
-4. Android CLIでEmulatorへインストールして起動する
-5. ユーザーから渡された確認シナリオに沿ってUIを操作する
-6. android screen capture -a と android layout --pretty で証跡を保存する
-7. 実行したコマンド、確認した画面、失敗内容、未確認項目を最後に短く報告する
+1. 対象アプリ、ビルドコマンド、APKパス、device serialを確認する
+2. ビルドとテストを実行する
+3. Android CLIでEmulatorへインストールして起動する
+4. ユーザーから渡された確認シナリオに沿ってUIを操作する
+5. 操作したすべての画面で、スクリーンショットとlayout JSONを保存する
+6. 実行したコマンド、確認した画面、失敗内容、未確認項目を短く報告する
+
+守ること:
+- 固定のdevice serialを前提にしない
+- 失敗した場合は、失敗したコマンドとエラー内容を報告する
 ```
 
 作成後は、新しい会話で次のように確認を依頼します。
 
 ```text
-Android CLIを使って event-schedule-demo を確認してください。
-
-確認シナリオ:
-- Event Schedule が表示される
-- セッション詳細へ遷移できる
-- Guide タブへ移動できる
-- Notes ダイアログを開閉できる
-- Android Backで戻れる
-- status bar / navigation bar と主要UIの重なりが疑われる箇所があれば報告する
+android-app-qa Skillを使って、Android CLIで event-schedule-demo を確認してください。
+各画面のスクリーンショットとlayout JSONを保存し、status bar / navigation bar と主要UIの重なりも確認してください。
 ```
 
 この発展項目で見たいのは、「Android CLIを使った実機操作と確認作業もエージェントに任せられるか」です。Edge-to-Edgeの最終判断はスクショを見て人間も確認しますが、ビルド、起動、操作、証跡保存を分担できると、実際の開発作業に近づきます。
+
+### 時間が余ったら
+
+- **確認結果をMarkdownレポートとして保存してもらう**
+  エージェントが `qa-result/YYYY-MM-DD-001/RESULT.md` に結果を書き、スクリーンショットを `qa-result/YYYY-MM-DD-001/images/` に保存するように、Skillへ手順を追加します。
+
+- **ログを入れて、本当に変更箇所が実行されているか確認してもらう**
+  エージェントが変更したComposableや処理に一時的なログを入れ、Android CLIで絞り込んだログを確認する手順をSkillへ追加します。画面上の見た目だけでなく、変更したコードが実際に通っていることを確認できます。
+
+- **ユーザースコープのSkillにして、他のプロジェクトでも使えるようにする**
+  ワークスペース用の `.agents/skills/` ではなく、ユーザー用の `~/.gemini/antigravity/skills/` に置くと、他のワークスペースでも同じSkillを使えます。詳しくは [Antigravity Skills](https://antigravity.google/docs/skills) を参照してください。
 
 ## 9. ふりかえり
 
