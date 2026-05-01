@@ -1,4 +1,4 @@
-# Android Agent ToolsをAntigravityで学ぼう
+# Android Agent toolsをAntigravityで学ぼう
 
 このリポジトリは、「AndroidのCLI、Skills、Knowledge Baseを使って既存アプリを安全に変更する」流れをAntigravityで体験するためのワークショップ用です。
 
