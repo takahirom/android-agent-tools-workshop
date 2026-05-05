@@ -151,10 +151,13 @@ android skills list
 
 `android` コマンドが見つからない場合や、`android update` / `android init` / `android skills list` が失敗する場合は、エージェントにセットアップを依頼します。
 
+ここで使う `android` コマンドは、Android DevelopersのAgent tools向けAndroid CLIです。古いAndroid SDK Toolsに含まれていた `android` コマンドではありません。必要に応じて、[Android CLI archive](https://developer.android.com/tools/agents/android-cli/archive) も参照してください。
+
 依頼文の例です。
 
 ```text
-この環境でAndroid CLIとAndroid Skillsを使える状態にしてください。
+この環境で、Android DevelopersのAgent tools向けAndroid CLIとAndroid Skillsを使える状態にしてください。
+古いAndroid SDK Toolsのandroidコマンドではなく、https://developer.android.com/tools/agents/android-cli/archive に載っている新しいAndroid CLIを使ってください。
 android update、android init、android --version、android skills list が実行できることを確認してください。
 必要な初期化があれば実行してください。
 ```
