@@ -195,6 +195,10 @@ Android SDK自体が入っていない場合は、必要なAndroid SDKもAndroid
 起動後、adb devices -l で device 状態になっていることを確認してください。
 ```
 
+Android CLIが正しくセットアップできていると、エージェントはAndroid CLIのSkillを読み込み、Android CLIの使い方を確認しながら作業します。
+
+![Android CLI skill loaded in Antigravity](images/antigravity-android-cli-skill-loaded.png)
+
 エージェントがコマンドを実行する前に、確認を求められることがあります。`Run` を押す前に、どのコマンドを実行しようとしているかを観察してみましょう。
 
 ![Antigravity command approval](images/antigravity-command-approval.png)
@@ -258,6 +262,10 @@ Windows PowerShell の例です。
 android screen capture -a -o artifacts/android/event-schedule-annotated.png
 android layout --pretty -o artifacts/android/event-schedule-layout.json
 ```
+
+Antigravity左側のExplorerから、保存されたPNGとJSONを確認できます。
+
+![Saved Android CLI artifacts in Explorer](images/antigravity-artifacts-explorer.png)
 
 `screen capture -a` は、UI要素に番号付きの枠を付けたPNGを出力します。`layout` は、画面上のテキスト、content description、座標、クリック可能かどうかなどをJSONで出力します。
 
