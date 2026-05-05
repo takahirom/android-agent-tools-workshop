@@ -44,6 +44,10 @@ Android Developersの [Agent tools and resources](https://developer.android.com/
 
 最初にAntigravityを起動できる状態にします。インストール済みの場合は、この章は読み飛ばして構いません。
 
+Antigravityをまだインストールしていない場合は、公式ダウンロードページからインストーラーをダウンロードしてください。
+
+- [Download Antigravity](https://antigravity.google/download)
+
 以下の画像はmacOSでの例です。Windowsではインストーラーの案内に従ってAntigravityを起動してください。
 
 macOSでは、ダウンロードしたAntigravityを `Applications` にドラッグ&ドロップしてから起動します。
