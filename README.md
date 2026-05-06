@@ -31,12 +31,12 @@ Android Developersの [Agent tools and resources](https://developer.android.com/
 
 ## 事前準備
 
-開始前に、手元のPCで以下を確認してください。
+開始前に、次のものを用意してください。
 
-- GoogleアカウントでAntigravityにサインインできる
-- GitHubからこのリポジトリをcloneできる
-- Android SDK、Android Emulator、JDKを使える、またはAndroid CLIに作成を依頼できる
-- エラーが出たときに、エラー文をコピーしてAntigravityに渡せる
+- Googleアカウント
+- Android Emulatorを起動できるPC
+
+Android Emulatorを動かすため、PCはメモリ16GB以上を推奨します。加えて、Android StudioやEmulator、System Imageを入れるために16GB以上の空き容量を用意してください。Windowsでは、CPUの仮想化支援機能が有効になっている必要があります。
 
 このワークショップでは、AndroidやWindowInsets APIを暗記することよりも、公式SkillとKnowledge Baseを使って確認可能な形で作業を進めることを重視します。
 
@@ -85,8 +85,10 @@ macOSでは、ダウンロードしたAntigravityを `Applications` にドラッ
 表示された入力欄に、次のURLを入力してcloneします。
 
 ```text
-git@github.com:takahirom/android-agent-tools-workshop.git
+https://github.com/takahirom/android-agent-tools-workshop.git
 ```
+
+clone時に保存場所を聞かれた場合は、`Documents` や `Desktop` など、自分が分かりやすい場所を選んで構いません。
 
 フォルダを開いたあと、信頼確認のダイアログが表示された場合は、対象フォルダがこのワークショップ用リポジトリであることを確認して `Yes, I trust the authors` を押します。
 
