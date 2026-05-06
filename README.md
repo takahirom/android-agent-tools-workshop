@@ -134,6 +134,27 @@ Antigravityは無料アカウントでも利用できますが、使用量には
 
 Terminalに、公式サイトでコピーしたインストールコマンドを貼り付けて実行します。
 
+<details>
+<summary>Permission denied と表示された場合</summary>
+
+macOS / LinuxでAndroid CLIのインストール中に `Permission denied` と表示された場合、`~/.local` ディレクトリの権限が原因になっていることがあります。
+
+その場合は、次のコマンドを実行してから、もう一度インストールコマンドを実行します。
+
+```bash
+sudo chown -R $(whoami) ~/.local
+```
+
+`sudo` を使うため、PCのログインパスワードの入力を求められる場合があります。
+
+</details>
+
+インストール直後に `android` コマンドが見つからない場合は、Terminalで次を実行してから、もう一度確認してください。
+
+```bash
+source ~/.zshrc
+```
+
 インストール後、Android CLIを更新して初期化します。
 
 ```bash
@@ -160,6 +181,7 @@ android skills list
 ```text
 この環境で、Android DevelopersのAgent tools向けAndroid CLIとAndroid Skillsを使える状態にしてください。
 古いAndroid SDK Toolsのandroidコマンドではなく、https://developer.android.com/tools/agents/android-cli/archive に載っている新しいAndroid CLIを使ってください。
+androidコマンドが見つからない場合は、~/.local/bin/android が存在するか確認し、それを利用するようにしてください。
 android update、android init、android --version、android skills list が実行できることを確認してください。
 必要な初期化があれば実行してください。
 ```
@@ -174,7 +196,18 @@ android skills list
 
 </details>
 
-`android skills list` でSkillの一覧が表示されればOKです。
+`android skills list` でSkillの一覧が表示されればOKです。たとえば、次のように表示されます。
+
+```text
+android-cli
+navigation-3
+display-ai-glasses-with-jetpack-compose-glimmer
+edge-to-edge
+play-billing-library-version-upgrade
+r8-analyzer
+migrate-xml-views-to-jetpack-compose
+agp-9-upgrade
+```
 
 ## 2. AntigravityでEmulatorを起動してみよう
 
@@ -227,7 +260,8 @@ adb devices -l
 依頼文の例です。
 
 ```text
-event-schedule-demo のデバッグアプリをビルドして、Emulatorにインストールし、アプリを起動してください。
+event-schedule-demo のDebug APKをビルドして、Emulatorにインストールし、アプリを起動してください。
+デバッガーには接続せず、通常起動してください。
 デバイスserialは、前の手順で確認したEmulatorのserialを使ってください。
 ```
 
