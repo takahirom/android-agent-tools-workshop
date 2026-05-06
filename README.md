@@ -305,11 +305,13 @@ Antigravity左側のExplorerから、保存されたPNGとJSONを確認できま
 
 `screen capture -a` は、UI要素に番号付きの枠を付けたPNGを出力します。`layout` は、画面上のテキスト、content description、座標、クリック可能かどうかなどをJSONで出力します。
 
-必要なら、注釈付き画像の番号を座標に変換できます。
+必要なら、注釈付き画像の番号を画面上の座標に変換できます。たとえば、画像内の `#1` が付いたUI要素をタップしたい場合は、次のように実行します。
 
 ```bash
 android screen resolve --screenshot=artifacts/android/event-schedule-annotated.png --string="tap #1"
 ```
+
+実行すると、`tap 200 100` のような文字列が表示されます。これは、`#1` の枠の中心が画面上の `x=200, y=100` あたりにある、という意味です。エージェントはこのような座標を使って、Emulator上のボタンやリスト項目をタップできます。
 
 ホーム画面で実行すると注釈が多くなり、何を見ているのか分かりにくくなります。このワークショップでは、アプリを起動してから `screen capture -a` と `layout` を実行します。
 
