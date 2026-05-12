@@ -81,6 +81,10 @@ System Imageに `Download` と表示されている場合は、Android Studioの
 
 Device Managerで、使うEmulatorの再生ボタンを押して起動します。
 
+以下はmacOS版Android Studioの例ですが、Windowsでも同じように対象Emulatorの再生ボタンを押して起動します。
+
+![Android Studio Device ManagerでEmulatorを起動する](images/android-studio-start-emulator.png)
+
 Emulatorのホーム画面が表示されるまで待ちます。起動には数分かかることがあります。
 
 ## androidコマンドをPATHに追加する
