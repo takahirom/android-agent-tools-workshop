@@ -112,8 +112,16 @@ C:\Users\<Windowsのユーザー名>\AppData\AndroidCLI
 4. `ユーザー環境変数` の `Path` を選び、`編集...` を押します。
 5. `新規` を押し、`android.exe` が入っているフォルダを追加します。
 6. `OK` を押して画面を閉じます。
-7. AntigravityのTerminalを開き直します。
-8. 次のコマンドで確認します。
+
+次に、AntigravityのTerminalを開き直します。すでにTerminalを開いている場合は、ゴミ箱アイコンで閉じます。
+
+![AntigravityでTerminalを閉じる](images/antigravity-kill-terminal.png)
+
+画面右上のTerminalアイコンを押して、Terminalを開き直します。
+
+![AntigravityでTerminalを開く](images/antigravity-open-terminal.png)
+
+新しく開いたTerminalで次のコマンドを実行して確認します。
 
 ```powershell
 android --version
@@ -121,9 +129,7 @@ android skills list
 ```
 
 AntigravityのTerminalで `android` コマンドが実行できればOKです。
-
-> Note:
-> コマンドとして `android` を実行できるようにするには、`Path` にフォルダを追加します。
+反映されない場合は、Antigravity自体を再起動してからもう一度確認してください。PCの再起動は通常不要です。
 
 ## ここまでできたらREADMEに戻る
 
