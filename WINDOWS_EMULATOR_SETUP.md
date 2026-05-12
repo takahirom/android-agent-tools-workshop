@@ -116,11 +116,10 @@ android --version
 android skills list
 ```
 
-`android` コマンドが実行できればOKです。
+AntigravityのTerminalで `android` コマンドが実行できればOKです。
 
 > Note:
 > コマンドとして `android` を実行できるようにするには、`Path` にフォルダを追加します。
-> `android` という名前の環境変数を作るだけでは、通常は `android` コマンドとして実行できません。
 
 ## ここまでできたらREADMEに戻る
 
