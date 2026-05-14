@@ -178,13 +178,15 @@ android --version
 android skills list
 ```
 
+> [!IMPORTANT]
+> Windowsで参加している場合は、`android` コマンドが見つからないときに [WINDOWS_EMULATOR_SETUP.md の「androidコマンドをPATHに追加する」](WINDOWS_EMULATOR_SETUP.md#androidコマンドをpathに追加する) も確認してください。
+
 <details>
 <summary>`android` コマンドが見つからない場合</summary>
 
 `android` コマンドが見つからない場合や、`android update` / `android init` / `android skills list` が失敗する場合は、エージェントにセットアップを依頼します。
 
-> [!IMPORTANT]
-> Windowsで参加している場合は、先に [WINDOWS_EMULATOR_SETUP.md の「androidコマンドをPATHに追加する」](WINDOWS_EMULATOR_SETUP.md#androidコマンドをpathに追加する) も確認してください。
+Windowsで参加している場合は、先に [WINDOWS_EMULATOR_SETUP.md の「androidコマンドをPATHに追加する」](WINDOWS_EMULATOR_SETUP.md#androidコマンドをpathに追加する) も確認してください。
 
 ここで使う `android` コマンドは、Android DevelopersのAgent tools向けAndroid CLIです。古いAndroid SDK Toolsに含まれていた `android` コマンドではありません。必要に応じて、[Android CLI archive](https://developer.android.com/tools/agents/android-cli/archive) も参照してください。
 
@@ -227,6 +229,7 @@ agp-9-upgrade
 
 > [!IMPORTANT]
 > Windowsで参加している場合は、Android CLIのEmulator作成・起動コマンドではなく、先に [WINDOWS_EMULATOR_SETUP.md](WINDOWS_EMULATOR_SETUP.md) の手順でEmulatorを起動してください。`android` コマンドが見つからない場合のPATH設定も同じファイルにあります。
+> `android` コマンドが見つからない場合は、[WINDOWS_EMULATOR_SETUP.md の「androidコマンドをPATHに追加する」](WINDOWS_EMULATOR_SETUP.md#androidコマンドをpathに追加する) も確認してください。
 > Emulatorが起動できたら、この章の残りは飛ばして「3. Emulatorでアプリを起動してみよう」へ進みます。
 
 右側のAgent入力欄に依頼文を入力します。
