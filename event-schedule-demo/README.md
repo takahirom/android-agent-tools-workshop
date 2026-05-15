@@ -15,7 +15,7 @@ The user-facing app is deliberately ordinary: a schedule tab, a venue guide tab,
 2. Install or select the official Android skill:
 
    ```bash
-   android skills add --skill=edge-to-edge
+   android skills add edge-to-edge --project=.
    ```
 
 3. Ask the agent to fix the Edge-to-Edge layout:

@@ -352,7 +352,7 @@ android skills find edge
 `edge-to-edge` が見つかったら、このリポジトリで使えるようにします。
 
 ```bash
-android skills add --skill=edge-to-edge --project=.
+android skills add edge-to-edge --project=.
 ```
 
 ## 6. Knowledge Baseで公式情報を見てみよう
