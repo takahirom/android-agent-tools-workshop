@@ -223,14 +223,14 @@ migrate-xml-views-to-jetpack-compose
 agp-9-upgrade
 ```
 
-## 2. AntigravityでEmulatorを起動してみよう
-
-まず、AntigravityでエージェントにAndroid CLIを使ってEmulatorを起動してもらいます。手元に使えるEmulatorがない場合は、作成から依頼します。
+## 2. AntigravityでEmulatorを起動してみよう(Mac向け手順)
 
 > [!IMPORTANT]
 > Windowsで参加している場合は、Android CLIのEmulator作成・起動コマンドではなく、先に [WINDOWS_EMULATOR_SETUP.md](WINDOWS_EMULATOR_SETUP.md) の手順でEmulatorを起動してください。`android` コマンドが見つからない場合のPATH設定も同じファイルにあります。
 > `android` コマンドが見つからない場合は、[WINDOWS_EMULATOR_SETUP.md の「androidコマンドをPATHに追加する」](WINDOWS_EMULATOR_SETUP.md#androidコマンドをpathに追加する) も確認してください。
 > Emulatorが起動できたら、この章の残りは飛ばして「3. Emulatorでアプリを起動してみよう」へ進みます。
+
+まず、AntigravityでエージェントにAndroid CLIを使ってEmulatorを起動してもらいます。手元に使えるEmulatorがない場合は、作成から依頼します。
 
 右側のAgent入力欄に依頼文を入力します。
 
