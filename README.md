@@ -236,10 +236,6 @@ agp-9-upgrade
 
 ![Antigravity agent input](images/antigravity-agent-input.png)
 
-右下のボタンが赤く表示されている間は、エージェントが作業中です。完了するまで待ちます。
-
-![Antigravity agent running](images/antigravity-agent-running.png)
-
 依頼文の例です。
 
 ```text
@@ -248,6 +244,10 @@ Android SDK自体が入っていない場合は、必要なAndroid SDKもAndroid
 必要ならEmulatorを作成してください。
 起動後、Emulatorが利用できる状態になっていることを確認してください。
 ```
+
+右下のボタンが赤く表示されている間は、エージェントが作業中です。完了するまで待ちます。
+
+![Antigravity agent running](images/antigravity-agent-running.png)
 
 Android CLIが正しくセットアップできていると、エージェントはAndroid CLIのSkillを読み込み、Android CLIの使い方を確認しながら作業します。
 
