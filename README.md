@@ -373,6 +373,10 @@ android docs fetch <KB_URL>
 
 ## 7. Edge-to-Edgeの未対応箇所を修正しよう
 
+新しく追加したSkillが現在のセッションで読み込まれないことがあります。右上の `+` ボタンから新しいセッションを開いてから依頼しましょう。
+
+![Open a new Antigravity session](images/antigravity-new-session.png)
+
 ここからはエージェントに作業させます。依頼文の例です。
 
 ```text
